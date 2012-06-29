@@ -74,7 +74,16 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
             [self.layer renderInContext:context];
             CGContextMoveToPoint(context, mid1.x, mid1.y);
             CGContextAddQuadCurveToPoint(context, previousPoint1.x, previousPoint1.y, mid2.x, mid2.y); 
-            CGContextSetLineCap(context, kCGLineCapButt);
+            if(previousPoint1.x == previousPoint2.x && previousPoint1.y == previousPoint2.y && previousPoint1.x == currentPoint.x && previousPoint1.y == currentPoint.y)
+            {
+                CGContextSetLineCap(context, kCGLineCapRound);
+
+            }
+            else 
+            {
+                CGContextSetLineCap(context, kCGLineCapButt);
+
+            }
             CGContextSetLineWidth(context, self.lineWidth);
             CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
             CGContextSetAlpha(context, self.lineAlpha);
@@ -133,9 +142,13 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     previousPoint2 = [touch locationInView:self];
     currentPoint = [touch locationInView:self];
     
+    [self touchesMoved:touches withEvent:event];
+    
     [bufferArray removeAllObjects];
     
     [self checkDrawStatus];
+    
+    
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
