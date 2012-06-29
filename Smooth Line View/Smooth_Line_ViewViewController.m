@@ -11,13 +11,21 @@
 
 @implementation Smooth_Line_ViewViewController
 
+@synthesize undoButton;
+@synthesize redoButton;
+@synthesize clearButton;
+@synthesize eraserButton;
+@synthesize save2FileButton;
+@synthesize save2AlbumButton;
+
 - (void)viewDidLoad
 {
     slv = [[[SmoothLineView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + 42, self.view.bounds.size.width, self.view.bounds.size.height - 42)] autorelease];
+    slv.delegate = self;
     [self.view addSubview:slv];
-
+    
     [super viewDidLoad];
-
+    
 }
 
 
@@ -93,7 +101,7 @@
 
 - (void) colorPickerControllerDidChangeColor: (InfColorPickerController*) picker
 {
-		[ self applyPickedColor: picker ];
+    [ self applyPickedColor: picker ];
 }
 
 //------------------------------------------------------------------------------
@@ -159,6 +167,32 @@
     
 }
 
+
+#pragma mark toolbarDelegate 
+-(void) setUndoButtonEnable:(NSNumber*)isEnable
+{
+    [undoButton setEnabled:[isEnable boolValue]];
+}
+-(void) setRedoButtonEnable:(NSNumber*)isEnable
+{
+    [redoButton setEnabled:[isEnable boolValue]];
+}
+-(void) setClearButtonEnable:(NSNumber*)isEnable
+{
+    [clearButton setEnabled:[isEnable boolValue]];
+}
+-(void) setEraserButtonEnable:(NSNumber*)isEnable
+{
+    [eraserButton setEnabled:[isEnable boolValue]];
+}
+-(void) setSave2FileButtonEnable:(NSNumber*)isEnable
+{
+    [save2FileButton setEnabled:[isEnable boolValue]];
+}
+-(void) setSave2AlbumButtonEnable:(NSNumber*)isEnable
+{
+    [save2AlbumButton setEnabled:[isEnable boolValue]];
+}
 
 @end
 

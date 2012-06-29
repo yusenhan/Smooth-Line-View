@@ -19,7 +19,8 @@ enum
 };
 
 @interface SmoothLineView : UIView {
-    @private
+    
+    id delegate;
     
     NSMutableArray *pathArray;
     NSMutableArray *lineArray;
@@ -42,8 +43,7 @@ enum
 @property (nonatomic, retain) UIColor *lineColor;
 @property (readwrite) CGFloat lineWidth;
 @property (readwrite) CGFloat lineAlpha;
-
-
+@property(assign) id delegate;
 
 - (void)calculateMinImageArea:(CGPoint)pp1 :(CGPoint)pp2 :(CGPoint)cp;
 - (void)redoButtonClicked;
@@ -53,6 +53,9 @@ enum
 - (void)save2FileButtonClicked;
 - (void)save2AlbumButtonClicked;
 
--(void)setColor:(float)r g:(float)g b:(float)b a:(float)a;
+- (void)setColor:(float)r g:(float)g b:(float)b a:(float)a;
+
+- (void)checkDrawStatus;
+
 
 @end

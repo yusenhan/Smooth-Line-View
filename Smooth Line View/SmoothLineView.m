@@ -27,6 +27,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
 @synthesize lineAlpha;
 @synthesize lineColor;
 @synthesize lineWidth;
+@synthesize delegate;
 
 #pragma mark -
 
@@ -184,6 +185,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     
     [curImage release];
     
+    [self checkDrawStatus];
+    
 }
 
 
@@ -311,6 +314,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
         drawStep = UNDO;
         [self redrawLine];
     }
+    [self checkDrawStatus];
 }
 
 -(void)redoButtonClicked
@@ -322,7 +326,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
         drawStep = REDO;
         [self redrawLine];
     }
-    
+    [self checkDrawStatus];
 }
 -(void)clearButtonClicked
 {    
@@ -335,6 +339,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     [self setNeedsDisplayInRect:self.bounds];
     [lineArray removeAllObjects];
     [bufferArray removeAllObjects];
+    [self checkDrawStatus];
 }
 
 -(void)eraserButtonClicked
@@ -399,6 +404,62 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     UIGraphicsEndImageContext();
     CGContextRef context = UIGraphicsGetCurrentContext(); 
     UIImageWriteToSavedPhotosAlbum(saveImage, self, @selector(imageSavedToPhotosAlbum: didFinishSavingWithError: contextInfo:),context);
+}
+
+#pragma mark toolbarDelegate Handle
+- (void) checkDrawStatus
+{
+    if([lineArray count]>0)
+    {
+        [delegate performSelectorOnMainThread:@selector(setUndoButtonEnable:)
+								   withObject:[NSNumber numberWithBool:YES]
+								waitUntilDone:NO];
+        [delegate performSelectorOnMainThread:@selector(setClearButtonEnable:)
+								   withObject:[NSNumber numberWithBool:YES]
+								waitUntilDone:NO];
+        [delegate performSelectorOnMainThread:@selector(setEraserButtonEnable:)
+								   withObject:[NSNumber numberWithBool:YES]
+								waitUntilDone:NO];
+        [delegate performSelectorOnMainThread:@selector(setSave2FileButtonEnable:)
+								   withObject:[NSNumber numberWithBool:YES]
+								waitUntilDone:NO];
+        [delegate performSelectorOnMainThread:@selector(setSave2AlbumButtonEnable:)
+								   withObject:[NSNumber numberWithBool:YES]
+								waitUntilDone:NO];
+
+    }
+    else 
+    {
+        [delegate performSelectorOnMainThread:@selector(setUndoButtonEnable:)
+								   withObject:[NSNumber numberWithBool:NO]
+								waitUntilDone:NO];
+        [delegate performSelectorOnMainThread:@selector(setClearButtonEnable:)
+								   withObject:[NSNumber numberWithBool:NO]
+								waitUntilDone:NO];
+        [delegate performSelectorOnMainThread:@selector(setEraserButtonEnable:)
+								   withObject:[NSNumber numberWithBool:NO]
+								waitUntilDone:NO];
+        [delegate performSelectorOnMainThread:@selector(setSave2FileButtonEnable:)
+								   withObject:[NSNumber numberWithBool:NO]
+								waitUntilDone:NO];
+        [delegate performSelectorOnMainThread:@selector(setSave2AlbumButtonEnable:)
+								   withObject:[NSNumber numberWithBool:NO]
+								waitUntilDone:NO];
+    }
+    
+    if([bufferArray count]>0)
+    {
+        [delegate performSelectorOnMainThread:@selector(setRedoButtonEnable:)
+								   withObject:[NSNumber numberWithBool:YES]
+								waitUntilDone:NO];
+
+    }
+    else 
+    {
+        [delegate performSelectorOnMainThread:@selector(setRedoButtonEnable:)
+								   withObject:[NSNumber numberWithBool:NO]
+								waitUntilDone:NO];
+    }
 }
 
 @end
