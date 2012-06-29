@@ -14,6 +14,7 @@
 		4BC7B9D8159D501D007CCDD1 /* InfColorSquarePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9CF159D501D007CCDD1 /* InfColorSquarePicker.m */; };
 		4BC7B9D9159D501D007CCDD1 /* InfHSBSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9D1159D501D007CCDD1 /* InfHSBSupport.m */; };
 		4BC7B9DA159D501D007CCDD1 /* InfSourceColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9D3159D501D007CCDD1 /* InfSourceColorView.m */; };
+		4BC7B9F1159D9B70007CCDD1 /* infAlphaBarPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9F0159D9B70007CCDD1 /* infAlphaBarPicker.m */; };
 		6B250CCD13F9ED20002A5D9D /* SmoothLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B250CCC13F9ED20002A5D9D /* SmoothLineView.m */; };
 		6B8244E614E0FF67007F2487 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B250CCF13FA2127002A5D9D /* QuartzCore.framework */; };
 		6B93BE6F13F3374200DFAB23 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B93BE6E13F3374200DFAB23 /* UIKit.framework */; };
@@ -50,6 +51,8 @@
 		4BC7B9D1159D501D007CCDD1 /* InfHSBSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfHSBSupport.m; sourceTree = "<group>"; };
 		4BC7B9D2159D501D007CCDD1 /* InfSourceColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfSourceColorView.h; sourceTree = "<group>"; };
 		4BC7B9D3159D501D007CCDD1 /* InfSourceColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfSourceColorView.m; sourceTree = "<group>"; };
+		4BC7B9EF159D9B70007CCDD1 /* infAlphaBarPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = infAlphaBarPicker.h; sourceTree = "<group>"; };
+		4BC7B9F0159D9B70007CCDD1 /* infAlphaBarPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = infAlphaBarPicker.m; sourceTree = "<group>"; };
 		6B250CCB13F9ED20002A5D9D /* SmoothLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmoothLineView.h; sourceTree = "<group>"; };
 		6B250CCC13F9ED20002A5D9D /* SmoothLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmoothLineView.m; sourceTree = "<group>"; };
 		6B250CCF13FA2127002A5D9D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -102,6 +105,8 @@
 		4BC7B9C5159D501D007CCDD1 /* InfColorPicker */ = {
 			isa = PBXGroup;
 			children = (
+				4BC7B9EF159D9B70007CCDD1 /* infAlphaBarPicker.h */,
+				4BC7B9F0159D9B70007CCDD1 /* infAlphaBarPicker.m */,
 				4BC7B9C6159D501D007CCDD1 /* InfColorBarPicker.h */,
 				4BC7B9C7159D501D007CCDD1 /* InfColorBarPicker.m */,
 				4BC7B9C8159D501D007CCDD1 /* InfColorIndicatorView.h */,
@@ -281,6 +286,7 @@
 				4BC7B9D8159D501D007CCDD1 /* InfColorSquarePicker.m in Sources */,
 				4BC7B9D9159D501D007CCDD1 /* InfHSBSupport.m in Sources */,
 				4BC7B9DA159D501D007CCDD1 /* InfSourceColorView.m in Sources */,
+				4BC7B9F1159D9B70007CCDD1 /* infAlphaBarPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

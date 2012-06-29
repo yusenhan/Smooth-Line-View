@@ -51,3 +51,4 @@ CGImageRef createHSVBarContentImage( InfComponentIndex barComponentIndex, float 
 	// remain at the constant value specified in the hsv array.
 
 //------------------------------------------------------------------------------
+
