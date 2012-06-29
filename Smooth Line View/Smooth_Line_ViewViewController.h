@@ -9,9 +9,12 @@
 
 #import <UIKit/UIKit.h>
 #import "SmoothLineView.h"
+#import "InfColorPicker.h"
 
-@interface Smooth_Line_ViewViewController : UIViewController 
+@interface Smooth_Line_ViewViewController : UIViewController < InfColorPickerControllerDelegate,UIPopoverControllerDelegate>
 {
-    SmoothLineView *slv;    
+    SmoothLineView *slv;  
+    UIPopoverController* activePopover;
+
 }
 @end

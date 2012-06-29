@@ -51,7 +51,6 @@ enum
 - (void)clearButtonClicked;
 - (void)eraserButtonClicked;
 
-- (void)drawLines;
-- (void)setColor:(UIColor*)_color;
+-(void)setColor:(float)r g:(float)g b:(float)b a:(float)a;
 
 @end

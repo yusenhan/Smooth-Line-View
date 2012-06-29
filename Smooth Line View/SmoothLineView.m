@@ -174,11 +174,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     UIGraphicsEndImageContext();
 //    [UIImagePNGRepresentation(curImage) writeToFile:pngPath atomically:YES];
     
-    NSDictionary *lineInfo = [NSDictionary dictionaryWithObjectsAndKeys:[pathArray copy], @"LINEARRAY",
-                              self.lineColor, @"COLOR",
-                              [NSNumber numberWithDouble:self.lineAlpha], @"ALPHA",
-                              [NSNumber numberWithDouble:self.lineWidth], @"WIDTH",
-                              curImage, @"IMAGE",
+    NSDictionary *lineInfo = [NSDictionary dictionaryWithObjectsAndKeys:curImage, @"IMAGE",
                               nil];
     
     [lineArray addObject:lineInfo];
@@ -291,51 +287,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     
 }
 
-- (void)drawLines
-{
-    for(int x = 0 ; x<[lineArray count];x++)
-    {
-        NSDictionary *lineInfo = [lineArray objectAtIndex:x];
-        NSMutableArray *_pathArray = (NSMutableArray*)[lineInfo valueForKey:@"LINEARRAY"];
-        self.lineColor = (UIColor*)[lineInfo valueForKey:@"COLOR"];
-        self.lineWidth = [(NSNumber*)[lineInfo valueForKey:@"WIDTH"] floatValue];
-        self.lineAlpha = [(NSNumber*)[lineInfo valueForKey:@"ALPHA"] floatValue];
-        
-        for(int y = 0 ; y<[_pathArray count];y++)
-        {
-            NSArray *points = (NSArray*)[_pathArray objectAtIndex:y];
-            
-            previousPoint2 = [[points objectAtIndex:0] CGPointValue];
-            previousPoint1 = [[points objectAtIndex:1] CGPointValue];
-            currentPoint = [[points objectAtIndex:2] CGPointValue];
-            drawStep = DRAW;
-            [self calculateMinImageArea:previousPoint1 :previousPoint2 :currentPoint];
-        }
-    }
-}
-
-
-- (void)removeLine
-{
-    for(int x = 0 ; x<[bufferArray count];x++)
-    {
-        NSDictionary *lineInfo = [lineArray objectAtIndex:x];
-        NSMutableArray *_pathArray = (NSMutableArray*)[lineInfo valueForKey:@"LINEARRAY"];
-        self.lineColor = (UIColor*)[lineInfo valueForKey:@"COLOR"];
-        self.lineWidth = [(NSNumber*)[lineInfo valueForKey:@"WIDTH"] floatValue];
-        self.lineAlpha = [(NSNumber*)[lineInfo valueForKey:@"ALPHA"] floatValue];
-        for(int y = 0 ; y<[_pathArray count];y++)
-        {
-            NSArray *points = (NSArray*)[_pathArray objectAtIndex:y];
-            
-            previousPoint2 = [[points objectAtIndex:0] CGPointValue];
-            previousPoint1 = [[points objectAtIndex:1] CGPointValue];
-            currentPoint = [[points objectAtIndex:2] CGPointValue];
-            drawStep = ERASE;
-            [self calculateMinImageArea:previousPoint1 :previousPoint2 :currentPoint];
-        }
-    }
-}
 
 
 -(void)redrawLine
@@ -398,9 +349,9 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     }
 }
 
--(void)setColor:(UIColor*)_color
+-(void)setColor:(float)r g:(float)g b:(float)b a:(float)a
 {
-    lineColor = _color;
+    self.lineColor = [UIColor colorWithRed:r green:g blue:b alpha:a];
 }
 
 @end
