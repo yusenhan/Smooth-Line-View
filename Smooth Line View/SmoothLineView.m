@@ -44,18 +44,17 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
         lineArray=[[NSMutableArray alloc]init];
         colorArray=[[NSMutableArray alloc]init]; 
         
-        /*
-        UIPanGestureRecognizer *recognizer;
-        
-        recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                             action:@selector(handleDrawing:)];
-        recognizer.minimumNumberOfTouches = 1;
-        recognizer.maximumNumberOfTouches = 1;
-        
-        [self addGestureRecognizer:recognizer];
-        [recognizer release];
-         */
-        
+/*
+         UIPanGestureRecognizer *recognizer;
+         
+         recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self
+         action:@selector(handleDrawing:)];
+         recognizer.minimumNumberOfTouches = 1;
+         recognizer.maximumNumberOfTouches = 1;
+         
+         [self addGestureRecognizer:recognizer];
+         [recognizer release];
+*/        
     }
     return self;
 }
@@ -81,7 +80,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
             CGContextStrokePath(context);            
             [super drawRect:rect];
             [curImage release];
-
+            
         }
             break;
         case CLEAR:
@@ -97,7 +96,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
             CGContextClearRect(context, rect);
             [super drawRect:rect];
             [curImage release];
-
+            
         }
             break;
         case UNDO:
@@ -124,7 +123,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 }
 
 #pragma mark Gesture handle
-
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     
@@ -133,9 +131,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     previousPoint1 = [touch locationInView:self];
     previousPoint2 = [touch locationInView:self];
     currentPoint = [touch locationInView:self];
-    
-    pathArray=[NSMutableArray new];
-    
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -147,48 +142,32 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     previousPoint1  = currentPoint;
     currentPoint    = [touch locationInView:self];
     
-    NSArray *points = [NSArray arrayWithObjects:
-                       [NSValue valueWithCGPoint:previousPoint2],
-                       [NSValue valueWithCGPoint:previousPoint1],
-                       [NSValue valueWithCGPoint:currentPoint],
-                       nil];
-    
-    [pathArray addObject:points];
-    if (1)
-    {
-        if(drawStep != ERASE) 
-            drawStep = DRAW;
-        [self calculateMinImageArea:previousPoint1 :previousPoint2 :currentPoint];
-    }
+    if(drawStep != ERASE) 
+        drawStep = DRAW;
+    [self calculateMinImageArea:previousPoint1 :previousPoint2 :currentPoint];
     
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-//    NSString  *pngPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"Test.png"];
-
+    
     
     UIGraphicsBeginImageContext(self.bounds.size);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     curImage = UIGraphicsGetImageFromCurrentImageContext();
     [curImage retain];
     UIGraphicsEndImageContext();
-//    [UIImagePNGRepresentation(curImage) writeToFile:pngPath atomically:YES];
     
     NSDictionary *lineInfo = [NSDictionary dictionaryWithObjectsAndKeys:curImage, @"IMAGE",
                               nil];
     
     [lineArray addObject:lineInfo];
-    [pathArray removeAllObjects];
-    [pathArray release]; pathArray = nil;
-    
     
     [curImage release];
     
     [self checkDrawStatus];
     
 }
-
 
 //UIPanGestureRecognizer will get bug. why?
 
@@ -205,42 +184,39 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
             previousPoint2 = point;
             currentPoint = point;
             
-            pathArray=[[NSMutableArray alloc]init];
             break;
         }
         case UIGestureRecognizerStateChanged:
         {
-            
             previousPoint2  = previousPoint1;
             previousPoint1  = currentPoint;
             currentPoint    = point;
             
-            NSArray *points = [NSArray arrayWithObjects:
-                               [NSValue valueWithCGPoint:previousPoint2],
-                               [NSValue valueWithCGPoint:previousPoint1],
-                               [NSValue valueWithCGPoint:currentPoint],
-                               nil];
+            if(drawStep != ERASE) 
+                drawStep = DRAW;
+            [self calculateMinImageArea:previousPoint1 :previousPoint2 :currentPoint];
             
-            [pathArray addObject:points];
-            if (1)
-            {
-                [self calculateMinImageArea:previousPoint1 :previousPoint2 :currentPoint];
-            }
             break;
         }
         case UIGestureRecognizerStateEnded:
         {
             
             
-            NSDictionary *lineInfo = [NSDictionary dictionaryWithObjectsAndKeys:[pathArray copy], @"LINEARRAY",
-                                      self.lineColor, @"COLOR",
-                                      [NSNumber numberWithDouble:self.lineAlpha], @"ALPHA",
-                                      [NSNumber numberWithDouble:self.lineWidth], @"WIDTH",
+            UIGraphicsBeginImageContext(self.bounds.size);
+            [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+            curImage = UIGraphicsGetImageFromCurrentImageContext();
+            [curImage retain];
+            UIGraphicsEndImageContext();
+            
+            NSDictionary *lineInfo = [NSDictionary dictionaryWithObjectsAndKeys:curImage, @"IMAGE",
                                       nil];
             
             [lineArray addObject:lineInfo];
-            [pathArray removeAllObjects];
-            [pathArray release]; pathArray = nil;
+            
+            [curImage release];
+            
+            [self checkDrawStatus];
+            
             break;
         }
             
@@ -250,8 +226,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
             break;
     }
 }
-
- */
+*/
 
 #pragma mark Private Helper function
 
@@ -385,7 +360,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"dd-MM-yyyy HH:mm:ss"];
     NSString *dateString = [dateFormat stringFromDate:today];
-        
+    
     NSString  *pngPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Screenshot %@.png",dateString]];
     UIGraphicsBeginImageContext(self.bounds.size);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -426,7 +401,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
         [delegate performSelectorOnMainThread:@selector(setSave2AlbumButtonEnable:)
 								   withObject:[NSNumber numberWithBool:YES]
 								waitUntilDone:NO];
-
+        
     }
     else 
     {
@@ -452,7 +427,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
         [delegate performSelectorOnMainThread:@selector(setRedoButtonEnable:)
 								   withObject:[NSNumber numberWithBool:YES]
 								waitUntilDone:NO];
-
+        
     }
     else 
     {
