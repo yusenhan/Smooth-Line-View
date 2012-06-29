@@ -13,7 +13,7 @@
 
 - (void)viewDidLoad
 {
-    slv = [[[SmoothLineView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + 50, self.view.bounds.size.width, self.view.bounds.size.height - 50)] autorelease];
+    slv = [[[SmoothLineView alloc] initWithFrame:CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y + 42, self.view.bounds.size.width, self.view.bounds.size.height - 42)] autorelease];
     [self.view addSubview:slv];
 
     [super viewDidLoad];
@@ -147,6 +147,17 @@
 	[ self showPopover: popover from: sender ];
 }
 
+-(IBAction)save2FileButtonClicked:(id)sender
+{
+    [slv save2FileButtonClicked];
+    
+}
+
+-(IBAction)save2AlbumButtonClicked:(id)sender
+{
+    [slv save2AlbumButtonClicked];
+    
+}
 
 
 @end

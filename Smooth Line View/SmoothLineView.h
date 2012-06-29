@@ -50,6 +50,8 @@ enum
 - (void)undoButtonClicked;
 - (void)clearButtonClicked;
 - (void)eraserButtonClicked;
+- (void)save2FileButtonClicked;
+- (void)save2AlbumButtonClicked;
 
 -(void)setColor:(float)r g:(float)g b:(float)b a:(float)a;
 

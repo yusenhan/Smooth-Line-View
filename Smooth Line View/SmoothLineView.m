@@ -349,9 +349,56 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     }
 }
 
+- (void)imageSavedToPhotosAlbum:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {  
+    NSString *message;  
+    NSString *title;  
+    if (!error) {  
+        title = NSLocalizedString(@"SaveSuccessTitle", @"");  
+        message = NSLocalizedString(@"SaveSuccessMessage", @"");  
+    } else {  
+        title = NSLocalizedString(@"SaveFailedTitle", @"");  
+        message = [error description];  
+    }  
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title  
+                                                    message:message  
+                                                   delegate:nil  
+                                          cancelButtonTitle:NSLocalizedString(@"ButtonOK", @"")  
+                                          otherButtonTitles:nil];  
+    [alert show];  
+    [alert release];  
+}  
+
 -(void)setColor:(float)r g:(float)g b:(float)b a:(float)a
 {
     self.lineColor = [UIColor colorWithRed:r green:g blue:b alpha:a];
+}
+
+-(void)save2FileButtonClicked
+{
+    
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"dd-MM-yyyy HH:mm:ss"];
+    NSString *dateString = [dateFormat stringFromDate:today];
+        
+    NSString  *pngPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Screenshot %@.png",dateString]];
+    UIGraphicsBeginImageContext(self.bounds.size);
+    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *saveImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [UIImagePNGRepresentation(saveImage) writeToFile:pngPath atomically:YES];
+    
+}
+
+//ref: http://iphoneincubator.com/blog/tag/uigraphicsbeginimagecontext
+-(void)save2AlbumButtonClicked
+{
+    UIGraphicsBeginImageContext(self.bounds.size);
+    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *saveImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    CGContextRef context = UIGraphicsGetCurrentContext(); 
+    UIImageWriteToSavedPhotosAlbum(saveImage, self, @selector(imageSavedToPhotosAlbum: didFinishSavingWithError: contextInfo:),context);
 }
 
 @end
