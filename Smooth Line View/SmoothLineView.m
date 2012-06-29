@@ -42,7 +42,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
         
         bufferArray=[[NSMutableArray alloc]init];
         lineArray=[[NSMutableArray alloc]init];
-        colorArray=[[NSMutableArray alloc]init]; 
+        
+        [self checkDrawStatus];
         
 /*
          UIPanGestureRecognizer *recognizer;
@@ -131,6 +132,10 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     previousPoint1 = [touch locationInView:self];
     previousPoint2 = [touch locationInView:self];
     currentPoint = [touch locationInView:self];
+    
+    [bufferArray removeAllObjects];
+    
+    [self checkDrawStatus];
 }
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event

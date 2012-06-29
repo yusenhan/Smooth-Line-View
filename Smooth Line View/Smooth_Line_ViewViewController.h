@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "SmoothLineView.h"
 #import "InfColorPicker.h"
+#import "UIGlossyButton.h"
 
 @interface Smooth_Line_ViewViewController : UIViewController <InfColorPickerControllerDelegate,UIPopoverControllerDelegate>
 {
@@ -17,12 +18,15 @@
     UIPopoverController* activePopover;
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *undoButton;
-@property (nonatomic, retain) IBOutlet UIButton *redoButton;
-@property (nonatomic, retain) IBOutlet UIButton *clearButton;
-@property (nonatomic, retain) IBOutlet UIButton *eraserButton;
-@property (nonatomic, retain) IBOutlet UIButton *save2FileButton;
-@property (nonatomic, retain) IBOutlet UIButton *save2AlbumButton;
+@property (nonatomic, retain) UIGlossyButton *undoButton;
+@property (nonatomic, retain) UIGlossyButton *redoButton;
+@property (nonatomic, retain) UIGlossyButton *clearButton;
+@property (nonatomic, retain) UIGlossyButton *eraserButton;
+@property (nonatomic, retain) UIGlossyButton *colorButton;
+@property (nonatomic, retain) UIGlossyButton *save2FileButton;
+@property (nonatomic, retain) UIGlossyButton *save2AlbumButton;
+
+-(void) initButton;
 
 -(void) setUndoButtonEnable:(NSNumber*)isEnable;
 -(void) setRedoButtonEnable:(NSNumber*)isEnable;

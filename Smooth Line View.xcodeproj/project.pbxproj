@@ -15,6 +15,8 @@
 		4BC7B9D9159D501D007CCDD1 /* InfHSBSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9D1159D501D007CCDD1 /* InfHSBSupport.m */; };
 		4BC7B9DA159D501D007CCDD1 /* InfSourceColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9D3159D501D007CCDD1 /* InfSourceColorView.m */; };
 		4BC7B9F1159D9B70007CCDD1 /* infAlphaBarPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9F0159D9B70007CCDD1 /* infAlphaBarPicker.m */; };
+		4BC7B9FC159DABDE007CCDD1 /* UIGlossyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9F9159DABDE007CCDD1 /* UIGlossyButton.m */; };
+		4BC7B9FD159DABDE007CCDD1 /* UIView+LayerEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9FB159DABDE007CCDD1 /* UIView+LayerEffects.m */; };
 		6B250CCD13F9ED20002A5D9D /* SmoothLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B250CCC13F9ED20002A5D9D /* SmoothLineView.m */; };
 		6B8244E614E0FF67007F2487 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B250CCF13FA2127002A5D9D /* QuartzCore.framework */; };
 		6B93BE6F13F3374200DFAB23 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B93BE6E13F3374200DFAB23 /* UIKit.framework */; };
@@ -53,6 +55,10 @@
 		4BC7B9D3159D501D007CCDD1 /* InfSourceColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfSourceColorView.m; sourceTree = "<group>"; };
 		4BC7B9EF159D9B70007CCDD1 /* infAlphaBarPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = infAlphaBarPicker.h; sourceTree = "<group>"; };
 		4BC7B9F0159D9B70007CCDD1 /* infAlphaBarPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = infAlphaBarPicker.m; sourceTree = "<group>"; };
+		4BC7B9F8159DABDE007CCDD1 /* UIGlossyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGlossyButton.h; sourceTree = "<group>"; };
+		4BC7B9F9159DABDE007CCDD1 /* UIGlossyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIGlossyButton.m; sourceTree = "<group>"; };
+		4BC7B9FA159DABDE007CCDD1 /* UIView+LayerEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LayerEffects.h"; sourceTree = "<group>"; };
+		4BC7B9FB159DABDE007CCDD1 /* UIView+LayerEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LayerEffects.m"; sourceTree = "<group>"; };
 		6B250CCB13F9ED20002A5D9D /* SmoothLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmoothLineView.h; sourceTree = "<group>"; };
 		6B250CCC13F9ED20002A5D9D /* SmoothLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmoothLineView.m; sourceTree = "<group>"; };
 		6B250CCF13FA2127002A5D9D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -125,9 +131,21 @@
 			path = InfColorPicker;
 			sourceTree = "<group>";
 		};
+		4BC7B9F7159DABDD007CCDD1 /* UIGlossyButton */ = {
+			isa = PBXGroup;
+			children = (
+				4BC7B9F8159DABDE007CCDD1 /* UIGlossyButton.h */,
+				4BC7B9F9159DABDE007CCDD1 /* UIGlossyButton.m */,
+				4BC7B9FA159DABDE007CCDD1 /* UIView+LayerEffects.h */,
+				4BC7B9FB159DABDE007CCDD1 /* UIView+LayerEffects.m */,
+			);
+			path = UIGlossyButton;
+			sourceTree = "<group>";
+		};
 		6B93BE5F13F3374100DFAB23 = {
 			isa = PBXGroup;
 			children = (
+				4BC7B9F7159DABDD007CCDD1 /* UIGlossyButton */,
 				4BC7B9C5159D501D007CCDD1 /* InfColorPicker */,
 				6B93BE7413F3374200DFAB23 /* Smooth Line View */,
 				6B93BE6D13F3374200DFAB23 /* Frameworks */,
@@ -287,6 +305,8 @@
 				4BC7B9D9159D501D007CCDD1 /* InfHSBSupport.m in Sources */,
 				4BC7B9DA159D501D007CCDD1 /* InfSourceColorView.m in Sources */,
 				4BC7B9F1159D9B70007CCDD1 /* infAlphaBarPicker.m in Sources */,
+				4BC7B9FC159DABDE007CCDD1 /* UIGlossyButton.m in Sources */,
+				4BC7B9FD159DABDE007CCDD1 /* UIView+LayerEffects.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

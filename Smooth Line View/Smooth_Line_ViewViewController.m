@@ -17,6 +17,7 @@
 @synthesize eraserButton;
 @synthesize save2FileButton;
 @synthesize save2AlbumButton;
+@synthesize colorButton;
 
 - (void)viewDidLoad
 {
@@ -24,10 +25,43 @@
     slv.delegate = self;
     [self.view addSubview:slv];
     
+    [self initButton];
+    
     [super viewDidLoad];
     
 }
 
+-(void)setButtonAttrib:(UIGlossyButton*)_button
+{
+    [_button useWhiteLabel: YES];
+    _button.buttonCornerRadius = 2.0; _button.buttonBorderWidth = 1.0f;
+	[_button setStrokeType: kUIGlossyButtonStrokeTypeBevelUp];
+    _button.tintColor = _button.borderColor = [UIColor colorWithRed:70.0f/255.0f green:105.0f/255.0f blue:192.0f/255.0f alpha:1.0f];
+}
+
+- (void) initButton
+{
+    undoButton = (UIGlossyButton*) [self.view viewWithTag: 1001];
+    [self setButtonAttrib:undoButton];    
+    
+    redoButton = (UIGlossyButton*) [self.view viewWithTag: 1002];
+    [self setButtonAttrib:redoButton];
+    
+    clearButton = (UIGlossyButton*) [self.view viewWithTag: 1003];
+    [self setButtonAttrib:clearButton];
+    
+    eraserButton = (UIGlossyButton*) [self.view viewWithTag: 1004];
+    [self setButtonAttrib:eraserButton];
+    
+    colorButton = (UIGlossyButton*) [self.view viewWithTag: 1005];
+    [self setButtonAttrib:colorButton];
+    
+    save2FileButton = (UIGlossyButton*) [self.view viewWithTag: 1006];   
+    [self setButtonAttrib:save2FileButton];
+    
+    save2AlbumButton = (UIGlossyButton*) [self.view viewWithTag: 1007];
+    [self setButtonAttrib:save2AlbumButton];
+}
 
 - (void) applyPickedColor: (InfColorPickerController*) picker
 {

@@ -22,12 +22,9 @@ enum
     
     id delegate;
     
-    NSMutableArray *pathArray;
     NSMutableArray *lineArray;
     NSMutableArray *bufferArray;
-    NSMutableArray *colorArray;
 
-    
     CGPoint currentPoint;
     CGPoint previousPoint1;
     CGPoint previousPoint2;
