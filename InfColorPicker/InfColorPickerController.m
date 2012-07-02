@@ -283,7 +283,7 @@ static void HSVFromUIColor( UIColor* color, float* h, float* s, float* v )
         float r,g,b,a;
         [newValue getRed:&r green:&g blue:&b alpha:&a];
         alphaPicker.value = a;
-        alphaView.color = newValue;
+        alphaView.curColor = newValue;
         alpha = a;
 
 		squarePicker.value = CGPointMake( saturation, brightness );

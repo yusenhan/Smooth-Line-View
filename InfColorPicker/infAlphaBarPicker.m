@@ -23,7 +23,7 @@
 
 @implementation InfAlphaBarView
 
-@synthesize color;
+@synthesize curColor;
 
 //------------------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ static CGImageRef createContentImage()
 		CGImageRelease( image );
         
         float r,g,b,a;
-        [color getRed:&r green:&g blue:&b alpha:&a];
+        [self.curColor getRed:&r green:&g blue:&b alpha:&a];
         
         CGGradientRef myGradient;
         CGColorSpaceRef myColorspace = CGColorSpaceCreateDeviceRGB();
@@ -78,7 +78,7 @@ static CGImageRef createContentImage()
 
 - (void)setColor:(UIColor *)newColor
 {
-    color = newColor;
+    curColor = newColor;
     
     [self setNeedsDisplay];
     

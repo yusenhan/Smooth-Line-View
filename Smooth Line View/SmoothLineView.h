@@ -35,6 +35,11 @@ enum
     UIImage *curImage;    
     
     int drawStep;
+    
+#if USEUIBezierPath
+    UIBezierPath *myPath;
+#endif
+    
 
 }
 @property (nonatomic, retain) UIColor *lineColor;

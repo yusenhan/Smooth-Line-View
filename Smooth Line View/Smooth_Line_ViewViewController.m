@@ -18,6 +18,7 @@
 @synthesize save2FileButton;
 @synthesize save2AlbumButton;
 @synthesize colorButton;
+@synthesize curColor;
 
 - (void)viewDidLoad
 {
@@ -26,6 +27,8 @@
     [self.view addSubview:slv];
     
     [self initButton];
+    
+    self.curColor = [UIColor blackColor];
     
     [super viewDidLoad];
     
@@ -65,14 +68,12 @@
 
 - (void) applyPickedColor: (InfColorPickerController*) picker
 {
-    const CGFloat *rgb = CGColorGetComponents(picker.resultColor.CGColor);
+
+    float red,green,blue,alpha;
     
-    float red = rgb[0];
-    float green = rgb[1];
-    float blue = rgb[2];
-    
-    float alpha = CGColorGetAlpha(picker.resultColor.CGColor);
-    
+    self.curColor = picker.resultColor;
+    [self.curColor getRed:&red green:&green blue:&blue alpha:&alpha];
+
     [slv setColor:red g:green b:blue a:alpha];
 }
 
@@ -181,7 +182,7 @@
 	
 	InfColorPickerController* picker = [ InfColorPickerController colorPickerViewController ];
 	
-	picker.sourceColor = self.view.backgroundColor;
+	picker.sourceColor = self.curColor;
 	picker.delegate = self;
 	
 	UIPopoverController* popover = [ [ [ UIPopoverController alloc ] initWithContentViewController: picker ] autorelease ];

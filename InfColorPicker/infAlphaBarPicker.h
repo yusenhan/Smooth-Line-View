@@ -18,7 +18,7 @@
 
 @interface InfAlphaBarView : UIView
 
-@property( nonatomic, retain) UIColor *color;
+@property( nonatomic, retain) UIColor *curColor;
 
 @end
 

@@ -18,6 +18,8 @@
     UIPopoverController* activePopover;
 }
 
+@property (nonatomic,retain)    UIColor *curColor;
+
 @property (nonatomic, retain) UIGlossyButton *undoButton;
 @property (nonatomic, retain) UIGlossyButton *redoButton;
 @property (nonatomic, retain) UIGlossyButton *clearButton;

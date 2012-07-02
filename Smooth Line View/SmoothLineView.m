@@ -66,9 +66,16 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
     switch (drawStep) {
         case DRAW:
         {
-            [curImage drawAtPoint:CGPointMake(0, 0)];
+            
             CGPoint mid1 = midPoint(previousPoint1, previousPoint2); 
             CGPoint mid2 = midPoint(currentPoint, previousPoint1);
+#if USEUIBezierPath
+            [myPath moveToPoint:mid1];
+            [myPath addQuadCurveToPoint:mid2 controlPoint:previousPoint1];
+            [self.lineColor setStroke];
+            [myPath strokeWithBlendMode:kCGBlendModeNormal alpha:self.lineAlpha];
+#else
+            [curImage drawAtPoint:CGPointMake(0, 0)];
             CGContextRef context = UIGraphicsGetCurrentContext(); 
             
             [self.layer renderInContext:context];
@@ -82,14 +89,22 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
             else 
             {
                 CGContextSetLineCap(context, kCGLineCapButt);
-
             }
+            
+            CGContextSetBlendMode(context, kCGBlendModeNormal);
+            CGContextSetLineJoin(context, kCGLineJoinRound);
             CGContextSetLineWidth(context, self.lineWidth);
             CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
+            CGContextSetShouldAntialias(context, YES);  
+            CGContextSetAllowsAntialiasing(context, YES); 
+            CGContextSetFlatness(context, 0.1f);
+            
             CGContextSetAlpha(context, self.lineAlpha);
-            CGContextStrokePath(context);            
-            [super drawRect:rect];
+            CGContextStrokePath(context); 
             [curImage release];
+#endif
+            [super drawRect:rect];
+
             
         }
             break;
@@ -135,8 +150,14 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 #pragma mark Gesture handle
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
     UITouch *touch = [touches anyObject];
+    
+#if USEUIBezierPath
+    myPath=[[UIBezierPath alloc]init];
+    myPath.lineWidth=self.lineWidth;
+    myPath.lineCapStyle = kCGLineCapRound;
+
+#endif
     
     previousPoint1 = [touch locationInView:self];
     previousPoint2 = [touch locationInView:self];
@@ -153,7 +174,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
     UITouch *touch  = [touches anyObject];
     
     previousPoint2  = previousPoint1;
@@ -163,7 +183,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     if(drawStep != ERASE) 
         drawStep = DRAW;
     [self calculateMinImageArea:previousPoint1 :previousPoint2 :currentPoint];
-    
 }
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -251,7 +270,9 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 
 - (void) calculateMinImageArea:(CGPoint)pp1 :(CGPoint)pp2 :(CGPoint)cp
 {
-    
+#if USEUIBezierPath
+    [self setNeedsDisplay];
+#else
     // calculate mid point
     CGPoint mid1    = midPoint(pp1, pp2); 
     CGPoint mid2    = midPoint(cp, pp1);
@@ -277,7 +298,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     UIGraphicsEndImageContext();
     
     [self setNeedsDisplayInRect:drawBox];
-    
+#endif
     //http://stackoverflow.com/a/4766028/489594
     [[NSRunLoop currentRunLoop] runMode: NSDefaultRunLoopMode beforeDate: [NSDate date]];
     
@@ -369,6 +390,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 -(void)setColor:(float)r g:(float)g b:(float)b a:(float)a
 {
     self.lineColor = [UIColor colorWithRed:r green:g blue:b alpha:a];
+    self.lineAlpha = a;
 }
 
 -(void)save2FileButtonClicked
