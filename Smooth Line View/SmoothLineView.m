@@ -221,7 +221,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     [curImage retain];
     UIGraphicsEndImageContext();
 #if PUSHTOFILE    
-    
+    lineIndex++;
     [self performSelectorInBackground:@selector(writeFilesBG)
                                withObject:nil];
 #else    
@@ -332,7 +332,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 #if PUSHTOFILE
 -(void)writeFilesBG
 {
-    NSString  *pngPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"/WB/%d.png",++lineIndex]];
+    NSString  *pngPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"/WB/%d.png",lineIndex]];
     UIGraphicsBeginImageContext(self.bounds.size);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *saveImage = UIGraphicsGetImageFromCurrentImageContext();
