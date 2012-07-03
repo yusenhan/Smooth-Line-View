@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B8E197215A2F020007F1FC0 /* UIImage-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B8E197115A2F020007F1FC0 /* UIImage-Extensions.m */; };
 		4BC7B9D4159D501D007CCDD1 /* InfColorBarPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9C7159D501D007CCDD1 /* InfColorBarPicker.m */; };
 		4BC7B9D5159D501D007CCDD1 /* InfColorIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9C9159D501D007CCDD1 /* InfColorIndicatorView.m */; };
 		4BC7B9D6159D501D007CCDD1 /* InfColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9CC159D501D007CCDD1 /* InfColorPickerController.m */; };
@@ -38,6 +39,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B8E197015A2F020007F1FC0 /* UIImage-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Extensions.h"; sourceTree = "<group>"; };
+		4B8E197115A2F020007F1FC0 /* UIImage-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Extensions.m"; sourceTree = "<group>"; };
 		4BC7B9B4159C31FF007CCDD1 /* Smooth Line View.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Smooth Line View.entitlements"; sourceTree = "<group>"; };
 		4BC7B9C6159D501D007CCDD1 /* InfColorBarPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfColorBarPicker.h; sourceTree = "<group>"; };
 		4BC7B9C7159D501D007CCDD1 /* InfColorBarPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfColorBarPicker.m; sourceTree = "<group>"; };
@@ -108,6 +111,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B8E196E15A2EFF7007F1FC0 /* UIImage-Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4B8E197015A2F020007F1FC0 /* UIImage-Extensions.h */,
+				4B8E197115A2F020007F1FC0 /* UIImage-Extensions.m */,
+			);
+			path = "UIImage-Extensions";
+			sourceTree = "<group>";
+		};
 		4BC7B9C5159D501D007CCDD1 /* InfColorPicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +157,7 @@
 		6B93BE5F13F3374100DFAB23 = {
 			isa = PBXGroup;
 			children = (
+				4B8E196E15A2EFF7007F1FC0 /* UIImage-Extensions */,
 				4BC7B9F7159DABDD007CCDD1 /* UIGlossyButton */,
 				4BC7B9C5159D501D007CCDD1 /* InfColorPicker */,
 				6B93BE7413F3374200DFAB23 /* Smooth Line View */,
@@ -307,6 +320,7 @@
 				4BC7B9F1159D9B70007CCDD1 /* infAlphaBarPicker.m in Sources */,
 				4BC7B9FC159DABDE007CCDD1 /* UIGlossyButton.m in Sources */,
 				4BC7B9FD159DABDE007CCDD1 /* UIView+LayerEffects.m in Sources */,
+				4B8E197215A2F020007F1FC0 /* UIImage-Extensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

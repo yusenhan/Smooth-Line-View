@@ -12,10 +12,11 @@
 #import "InfColorPicker.h"
 #import "UIGlossyButton.h"
 
-@interface Smooth_Line_ViewViewController : UIViewController <InfColorPickerControllerDelegate,UIPopoverControllerDelegate>
+@interface Smooth_Line_ViewViewController : UIViewController <InfColorPickerControllerDelegate,UIPopoverControllerDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 {
     SmoothLineView *slv;  
     UIPopoverController* activePopover;
+    UIPopoverController *popover;
 }
 
 @property (nonatomic,retain)    UIColor *curColor;
@@ -27,6 +28,8 @@
 @property (nonatomic, retain) UIGlossyButton *colorButton;
 @property (nonatomic, retain) UIGlossyButton *save2FileButton;
 @property (nonatomic, retain) UIGlossyButton *save2AlbumButton;
+@property (nonatomic, retain) UIGlossyButton *loadFromAlbumButton;
+
 
 -(void) initButton;
 

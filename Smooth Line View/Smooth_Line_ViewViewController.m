@@ -17,6 +17,7 @@
 @synthesize eraserButton;
 @synthesize save2FileButton;
 @synthesize save2AlbumButton;
+@synthesize loadFromAlbumButton;
 @synthesize colorButton;
 @synthesize curColor;
 
@@ -64,6 +65,9 @@
     
     save2AlbumButton = (UIGlossyButton*) [self.view viewWithTag: 1007];
     [self setButtonAttrib:save2AlbumButton];
+    
+    loadFromAlbumButton = (UIGlossyButton*) [self.view viewWithTag: 1008];
+    [self setButtonAttrib:loadFromAlbumButton];
 }
 
 - (void) applyPickedColor: (InfColorPickerController*) picker
@@ -148,6 +152,7 @@
 	[ activePopover dismissPopoverAnimated: YES ];
 }
 
+#pragma mark Button Click Event
 
 -(IBAction)undoButtonClicked:(id)sender
 {
@@ -202,6 +207,27 @@
     
 }
 
+-(IBAction)loadFromAlbumButtonClicked:(id)sender
+{
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.delegate = self;
+    
+    popover = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
+    [popover presentPopoverFromRect:CGRectMake(654.0, 1.0f, 1.0, 1.0) 
+                             inView:slv
+           permittedArrowDirections:UIPopoverArrowDirectionAny 
+                           animated:YES];
+}
+#pragma mark UIImagePickerControllerDelegate Handle
+- (void)imagePickerController:(UIImagePickerController *)picker
+        didFinishPickingImage:(UIImage *)image
+                  editingInfo:(NSDictionary *)editingInfo
+{
+    [popover dismissPopoverAnimated:YES];
+    [slv loadFromAlbumButtonClicked:image];
+    [popover release];
+
+}
 
 #pragma mark toolbarDelegate 
 -(void) setUndoButtonEnable:(NSNumber*)isEnable
@@ -227,6 +253,10 @@
 -(void) setSave2AlbumButtonEnable:(NSNumber*)isEnable
 {
     [save2AlbumButton setEnabled:[isEnable boolValue]];
+}
+-(void) setLoadFromAlbumButtonEnable:(NSNumber*)isEnable
+{
+    [loadFromAlbumButton setEnabled:[isEnable boolValue]];
 }
 
 @end

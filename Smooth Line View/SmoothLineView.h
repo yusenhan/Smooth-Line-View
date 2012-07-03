@@ -16,9 +16,10 @@ enum
 	ERASE					= 0x0002,
 	UNDO					= 0x0003,
 	REDO					= 0x0004,
+    RELOAD                  = 0x0005,
 };
 
-@interface SmoothLineView : UIView {
+@interface SmoothLineView : UIView<UIPopoverControllerDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate> {
     
     id delegate;
     
@@ -57,6 +58,7 @@ enum
 - (void)eraserButtonClicked;
 - (void)save2FileButtonClicked;
 - (void)save2AlbumButtonClicked;
+- (void)loadFromAlbumButtonClicked:(UIImage*)_image;
 
 - (void)setColor:(float)r g:(float)g b:(float)b a:(float)a;
 

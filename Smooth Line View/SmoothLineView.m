@@ -9,6 +9,7 @@
 
 #import "SmoothLineView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIImage-Extensions.h"
 
 #define DEFAULT_COLOR [UIColor blackColor]
 #define DEFAULT_WIDTH 5.0f
@@ -127,9 +128,8 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
             
             CGContextSetAlpha(context, self.lineAlpha);
             CGContextStrokePath(context); 
-            [curImage release];
 #endif
-            [super drawRect:rect];
+            [curImage release];
 
             
         }
@@ -142,10 +142,34 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
         }
         case ERASE:
         {
+            CGPoint mid1 = midPoint(previousPoint1, previousPoint2); 
+            CGPoint mid2 = midPoint(currentPoint, previousPoint1);
+#if USEUIBezierPath
+            [myPath moveToPoint:mid1];
+            [myPath addQuadCurveToPoint:mid2 controlPoint:previousPoint1];
+            [self.lineColor setStroke];
+            [myPath strokeWithBlendMode:kCGBlendModeClear alpha:self.lineAlpha];
+#else
             [curImage drawAtPoint:CGPointMake(0, 0)];
             CGContextRef context = UIGraphicsGetCurrentContext(); 
-            CGContextClearRect(context, rect);
-            [super drawRect:rect];
+            
+            [self.layer renderInContext:context];
+            CGContextMoveToPoint(context, mid1.x, mid1.y);
+            CGContextAddQuadCurveToPoint(context, previousPoint1.x, previousPoint1.y, mid2.x, mid2.y); 
+            CGContextSetLineCap(context, kCGLineCapRound);
+            
+            //eraser work around http://stackoverflow.com/a/9043950/489594
+            CGContextSetBlendMode(context, kCGBlendModeClear);
+            CGContextSetLineJoin(context, kCGLineJoinRound);
+            CGContextSetLineWidth(context, self.lineWidth);
+            CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
+            CGContextSetShouldAntialias(context, YES);  
+            CGContextSetAllowsAntialiasing(context, YES); 
+            CGContextSetFlatness(context, 0.1f);
+            
+            CGContextSetAlpha(context, self.lineAlpha);
+            CGContextStrokePath(context); 
+#endif
             [curImage release];
             
         }
@@ -162,10 +186,22 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
             [curImage release];
             break;
         }
-            
+        case RELOAD:
+        {
+            //http://stackoverflow.com/a/6176608/489594
+            if(curImage.size.width>curImage.size.height)
+            {
+                UIImage *_tmp = curImage;
+                curImage = [_tmp imageRotatedByDegrees:90];
+            }
+            [curImage drawInRect:self.bounds]; 
+
+            break;
+        }
         default:
             break;
     }    
+    [super drawRect:rect];
 }
 
 #pragma mark Private Helper function
@@ -458,6 +494,9 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 
 -(void)save2FileButtonClicked
 {
+    BOOL error;
+    NSString *message;  
+    NSString *title;
     
     NSDate *today = [NSDate date];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
@@ -469,7 +508,23 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *saveImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    [UIImagePNGRepresentation(saveImage) writeToFile:pngPath atomically:YES];
+    error = [UIImagePNGRepresentation(saveImage) writeToFile:pngPath atomically:YES];
+    
+    if (!error) {  
+        title = NSLocalizedString(@"SaveSuccessTitle", @"");  
+        message = NSLocalizedString(@"SaveSuccessMessage", @"");  
+    } else {  
+        title = NSLocalizedString(@"SaveFailedTitle", @"");  
+        message = NSLocalizedString(@"SaveFailMessage", @"");  ;  
+    }  
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title  
+                                                    message:message  
+                                                   delegate:nil  
+                                          cancelButtonTitle:NSLocalizedString(@"ButtonOK", @"")  
+                                          otherButtonTitles:nil];  
+    [alert show];  
+    [alert release];  
+
     
 }
 
@@ -479,9 +534,20 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     UIGraphicsBeginImageContext(self.bounds.size);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *saveImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *_tmp = saveImage;
+    saveImage = [_tmp imageRotatedByDegrees:-90];
+
     UIGraphicsEndImageContext();
     CGContextRef context = UIGraphicsGetCurrentContext(); 
     UIImageWriteToSavedPhotosAlbum(saveImage, self, @selector(imageSavedToPhotosAlbum: didFinishSavingWithError: contextInfo:),context);
+}
+
+- (void)loadFromAlbumButtonClicked:(UIImage*)_image
+{
+    drawStep = RELOAD;
+    curImage = _image;
+    [curImage retain];
+    [self setNeedsDisplay];
 }
 
 #pragma mark toolbarDelegate Handle
@@ -536,6 +602,9 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 #endif
     {
         [delegate performSelectorOnMainThread:@selector(setRedoButtonEnable:)
+								   withObject:[NSNumber numberWithBool:YES]
+								waitUntilDone:NO];
+        [delegate performSelectorOnMainThread:@selector(setClearButtonEnable:)
 								   withObject:[NSNumber numberWithBool:YES]
 								waitUntilDone:NO];
         
