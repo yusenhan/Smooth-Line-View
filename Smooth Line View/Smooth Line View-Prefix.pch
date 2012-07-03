@@ -13,5 +13,7 @@
     #import <Foundation/Foundation.h>
 #endif
 
+//switch UIBezierPath / CGContext
 #define USEUIBezierPath 0
-#define PUSHTOFILE      0
+//switch Image push to memory or files
+#define PUSHTOFILE      1

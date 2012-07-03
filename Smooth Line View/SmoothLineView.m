@@ -215,21 +215,15 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    
-    
     UIGraphicsBeginImageContext(self.bounds.size);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     curImage = UIGraphicsGetImageFromCurrentImageContext();
     [curImage retain];
     UIGraphicsEndImageContext();
 #if PUSHTOFILE    
-    NSString  *pngPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"/WB/%d.png",++lineIndex]];
-    UIGraphicsBeginImageContext(self.bounds.size);
-    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *saveImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    [UIImagePNGRepresentation(saveImage) writeToFile:pngPath atomically:YES];
-    ;
+    
+    [self performSelectorInBackground:@selector(writeFilesBG)
+                               withObject:nil];
 #else    
     NSDictionary *lineInfo = [NSDictionary dictionaryWithObjectsAndKeys:curImage, @"IMAGE",nil];
     [lineArray addObject:lineInfo];
@@ -335,6 +329,17 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     
 }
 
+#if PUSHTOFILE
+-(void)writeFilesBG
+{
+    NSString  *pngPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"/WB/%d.png",++lineIndex]];
+    UIGraphicsBeginImageContext(self.bounds.size);
+    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *saveImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [UIImagePNGRepresentation(saveImage) writeToFile:pngPath atomically:YES];
+}
+#endif
 
 -(void)redrawLine
 {

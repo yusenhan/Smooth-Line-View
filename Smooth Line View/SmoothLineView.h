@@ -62,5 +62,8 @@ enum
 
 - (void)checkDrawStatus;
 
+#if PUSHTOFILE
+- (void)writeFilesBG;
+#endif
 
 @end
