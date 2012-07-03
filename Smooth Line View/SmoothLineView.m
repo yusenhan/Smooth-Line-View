@@ -192,9 +192,11 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     currentPoint = [touch locationInView:self];
     
     [self touchesMoved:touches withEvent:event];
-    
+#if  PUSHTOFILE
+    redoIndex=0;
+#else
     [bufferArray removeAllObjects];
-    
+#endif
     [self checkDrawStatus];
     
     
