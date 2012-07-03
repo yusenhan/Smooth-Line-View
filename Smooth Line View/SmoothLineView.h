@@ -32,12 +32,15 @@ enum
     UIColor *lineColor;
     CGFloat lineAlpha;
     
-    UIImage *curImage;    
-    
+    UIImage *curImage;  
     int drawStep;
     
 #if USEUIBezierPath
     UIBezierPath *myPath;
+#endif
+#if PUSHTOFILE
+    int lineIndex;
+    int redoIndex;
 #endif
     
 

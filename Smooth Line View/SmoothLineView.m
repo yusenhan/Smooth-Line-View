@@ -43,6 +43,32 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
         bufferArray=[[NSMutableArray alloc]init];
         lineArray=[[NSMutableArray alloc]init];
         
+#if PUSHTOFILE
+        lineIndex = 0;
+        redoIndex = 0;
+        
+        NSString  *pngPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"/WB"];
+
+        // Check if the directory already exists
+        BOOL isDir;        
+        BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:pngPath isDirectory:&isDir];
+        if (exists) 
+        {
+            if (!isDir) 
+            {
+                NSError *error = nil;
+                [[NSFileManager defaultManager]  removeItemAtPath:pngPath error:&error];
+                // Directory does not exist so create it
+                [[NSFileManager defaultManager] createDirectoryAtPath:pngPath withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+        }
+        else
+        {
+            // Directory does not exist so create it
+            [[NSFileManager defaultManager] createDirectoryAtPath:pngPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+#endif        
+        
         [self checkDrawStatus];
         
 /*
@@ -127,11 +153,13 @@ CGPoint midPoint(CGPoint p1, CGPoint p2);
         case UNDO:
         {
             [curImage drawInRect:self.bounds];   
+            [curImage release];
             break;
         }
         case REDO:
         {
             [curImage drawInRect:self.bounds];   
+            [curImage release];
             break;
         }
             
@@ -194,14 +222,20 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     curImage = UIGraphicsGetImageFromCurrentImageContext();
     [curImage retain];
     UIGraphicsEndImageContext();
-    
-    NSDictionary *lineInfo = [NSDictionary dictionaryWithObjectsAndKeys:curImage, @"IMAGE",
-                              nil];
-    
+#if PUSHTOFILE    
+    NSString  *pngPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"/WB/%d.png",++lineIndex]];
+    UIGraphicsBeginImageContext(self.bounds.size);
+    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *saveImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    [UIImagePNGRepresentation(saveImage) writeToFile:pngPath atomically:YES];
+    ;
+#else    
+    NSDictionary *lineInfo = [NSDictionary dictionaryWithObjectsAndKeys:curImage, @"IMAGE",nil];
     [lineArray addObject:lineInfo];
-    
+#endif    
+                              
     [curImage release];
-    
     [self checkDrawStatus];
     
 }
@@ -270,9 +304,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 
 - (void) calculateMinImageArea:(CGPoint)pp1 :(CGPoint)pp2 :(CGPoint)cp
 {
-#if USEUIBezierPath
-    [self setNeedsDisplay];
-#else
     // calculate mid point
     CGPoint mid1    = midPoint(pp1, pp2); 
     CGPoint mid2    = midPoint(cp, pp1);
@@ -286,10 +317,10 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     CGRect drawBox = bounds;
     
     //Pad our values so the bounding box respects our line width
-    drawBox.origin.x        -= self.lineWidth * 2;
-    drawBox.origin.y        -= self.lineWidth * 2;
-    drawBox.size.width      += self.lineWidth * 4;
-    drawBox.size.height     += self.lineWidth * 4;
+    drawBox.origin.x        -= self.lineWidth * 1;
+    drawBox.origin.y        -= self.lineWidth * 1;
+    drawBox.size.width      += self.lineWidth * 2;
+    drawBox.size.height     += self.lineWidth * 2;
     
     UIGraphicsBeginImageContext(drawBox.size);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -298,20 +329,24 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     UIGraphicsEndImageContext();
     
     [self setNeedsDisplayInRect:drawBox];
-#endif
+
     //http://stackoverflow.com/a/4766028/489594
     [[NSRunLoop currentRunLoop] runMode: NSDefaultRunLoopMode beforeDate: [NSDate date]];
     
 }
 
 
-
 -(void)redrawLine
 {
     UIGraphicsBeginImageContext(self.bounds.size);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+#if PUSHTOFILE
+    curImage = [UIImage imageWithContentsOfFile:[NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"/WB/%d.png",lineIndex]]];
+    [curImage retain];
+#else
     NSDictionary *lineInfo = [lineArray lastObject];
     curImage = (UIImage*)[lineInfo valueForKey:@"IMAGE"];
+#endif
     UIGraphicsEndImageContext();
     [self setNeedsDisplayInRect:self.bounds];    
 }
@@ -321,6 +356,12 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 
 -(void)undoButtonClicked
 {
+#if PUSHTOFILE
+    lineIndex--;
+    redoIndex++;
+    drawStep = UNDO;
+    [self redrawLine];
+#else
     if([lineArray count]>0){
         NSMutableArray *_line=[lineArray lastObject];
         [bufferArray addObject:[_line copy]];
@@ -328,11 +369,19 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
         drawStep = UNDO;
         [self redrawLine];
     }
+#endif
+
     [self checkDrawStatus];
 }
 
 -(void)redoButtonClicked
 {
+#if PUSHTOFILE
+    lineIndex++;
+    redoIndex--;
+    drawStep = REDO;
+    [self redrawLine];
+#else
     if([bufferArray count]>0){
         NSMutableArray *_line=[bufferArray lastObject];
         [lineArray addObject:_line];
@@ -340,6 +389,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
         drawStep = REDO;
         [self redrawLine];
     }
+#endif
     [self checkDrawStatus];
 }
 -(void)clearButtonClicked
@@ -351,8 +401,14 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     UIGraphicsEndImageContext();
     drawStep = CLEAR;
     [self setNeedsDisplayInRect:self.bounds];
+#if PUSHTOFILE
+    lineIndex = 0;
+    redoIndex = 0;
+    //REMOVE ALL FILES
+#else
     [lineArray removeAllObjects];
     [bufferArray removeAllObjects];
+#endif
     [self checkDrawStatus];
 }
 
@@ -424,7 +480,12 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 #pragma mark toolbarDelegate Handle
 - (void) checkDrawStatus
 {
+#if PUSHTOFILE
+    if(lineIndex > 0)
+
+#else
     if([lineArray count]>0)
+#endif
     {
         [delegate performSelectorOnMainThread:@selector(setUndoButtonEnable:)
 								   withObject:[NSNumber numberWithBool:YES]
@@ -461,8 +522,11 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 								   withObject:[NSNumber numberWithBool:NO]
 								waitUntilDone:NO];
     }
-    
+#if PUSHTOFILE
+    if(redoIndex > 0)
+#else
     if([bufferArray count]>0)
+#endif
     {
         [delegate performSelectorOnMainThread:@selector(setRedoButtonEnable:)
 								   withObject:[NSNumber numberWithBool:YES]
