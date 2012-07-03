@@ -3,6 +3,7 @@ Smooth line UIView
 ====================
 
 based on https://github.com/levinunnink/Smooth-Line-View
+<pre>
 I add new function: 
 1. undo
 2. redo
@@ -12,7 +13,7 @@ I add new function:
 6. save image to file
 7. save image to album
 8. load image from album
-
+</pre>
 #### Usage
 <pre>
 <code>
