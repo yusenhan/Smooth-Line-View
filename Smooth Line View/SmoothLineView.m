@@ -10,6 +10,7 @@
 #import "SmoothLineView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIImage-Extensions.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 #define DEFAULT_COLOR [UIColor blackColor]
 #define DEFAULT_WIDTH 5.0f
@@ -467,25 +468,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     }
 }
 
-- (void)imageSavedToPhotosAlbum:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {  
-    NSString *message;  
-    NSString *title;  
-    if (!error) {  
-        title = NSLocalizedString(@"SaveSuccessTitle", @"");  
-        message = NSLocalizedString(@"SaveSuccessMessage", @"");  
-    } else {  
-        title = NSLocalizedString(@"SaveFailedTitle", @"");  
-        message = [error description];  
-    }  
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title  
-                                                    message:message  
-                                                   delegate:nil  
-                                          cancelButtonTitle:NSLocalizedString(@"ButtonOK", @"")  
-                                          otherButtonTitles:nil];  
-    [alert show];  
-    [alert release];  
-}  
-
 -(void)setColor:(float)r g:(float)g b:(float)b a:(float)a
 {
     self.lineColor = [UIColor colorWithRed:r green:g blue:b alpha:a];
@@ -531,15 +513,36 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 //ref: http://iphoneincubator.com/blog/tag/uigraphicsbeginimagecontext
 -(void)save2AlbumButtonClicked
 {
+    
+    
     UIGraphicsBeginImageContext(self.bounds.size);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *saveImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIImage *_tmp = saveImage;
-    saveImage = [_tmp imageRotatedByDegrees:-90];
-
     UIGraphicsEndImageContext();
-    CGContextRef context = UIGraphicsGetCurrentContext(); 
-    UIImageWriteToSavedPhotosAlbum(saveImage, self, @selector(imageSavedToPhotosAlbum: didFinishSavingWithError: contextInfo:),context);
+    
+    //http://www.touch-code-magazine.com/ios5-saving-photos-in-custom-photo-album-category-for-download/
+    ALAssetsLibrary* library = [[ALAssetsLibrary alloc] init];
+    [library saveImage:saveImage toAlbum:@"Draw Album" withCompletionBlock:^(NSError *error) {
+        NSString *message;  
+        NSString *title;
+        if (!error) {
+            title = NSLocalizedString(@"SaveSuccessTitle", @"");  
+            message = NSLocalizedString(@"SaveSuccessMessage", @"");  
+        }
+        else {
+            
+            title = NSLocalizedString(@"SaveFailedTitle", @"");  
+            message = [error description];
+        }
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title  
+                                                        message:message  
+                                                       delegate:nil  
+                                              cancelButtonTitle:NSLocalizedString(@"ButtonOK", @"")  
+                                              otherButtonTitles:nil];  
+        [alert show];  
+        [alert release];
+    }];
 }
 
 - (void)loadFromAlbumButtonClicked:(UIImage*)_image

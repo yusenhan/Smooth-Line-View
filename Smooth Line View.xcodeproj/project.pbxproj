@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4B8E197215A2F020007F1FC0 /* UIImage-Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B8E197115A2F020007F1FC0 /* UIImage-Extensions.m */; };
+		4B8E197415A3E359007F1FC0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4B8E197315A3E359007F1FC0 /* AssetsLibrary.framework */; };
+		4B8E197C15A3E94E007F1FC0 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B8E197B15A3E94E007F1FC0 /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		4BC7B9D4159D501D007CCDD1 /* InfColorBarPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9C7159D501D007CCDD1 /* InfColorBarPicker.m */; };
 		4BC7B9D5159D501D007CCDD1 /* InfColorIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9C9159D501D007CCDD1 /* InfColorIndicatorView.m */; };
 		4BC7B9D6159D501D007CCDD1 /* InfColorPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC7B9CC159D501D007CCDD1 /* InfColorPickerController.m */; };
@@ -41,6 +43,9 @@
 /* Begin PBXFileReference section */
 		4B8E197015A2F020007F1FC0 /* UIImage-Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage-Extensions.h"; sourceTree = "<group>"; };
 		4B8E197115A2F020007F1FC0 /* UIImage-Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage-Extensions.m"; sourceTree = "<group>"; };
+		4B8E197315A3E359007F1FC0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		4B8E197A15A3E94E007F1FC0 /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
+		4B8E197B15A3E94E007F1FC0 /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
 		4BC7B9B4159C31FF007CCDD1 /* Smooth Line View.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Smooth Line View.entitlements"; sourceTree = "<group>"; };
 		4BC7B9C6159D501D007CCDD1 /* InfColorBarPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InfColorBarPicker.h; sourceTree = "<group>"; };
 		4BC7B9C7159D501D007CCDD1 /* InfColorBarPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InfColorBarPicker.m; sourceTree = "<group>"; };
@@ -101,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B8E197415A3E359007F1FC0 /* AssetsLibrary.framework in Frameworks */,
 				6B8244E614E0FF67007F2487 /* QuartzCore.framework in Frameworks */,
 				6B93BE6F13F3374200DFAB23 /* UIKit.framework in Frameworks */,
 				6B93BE7113F3374200DFAB23 /* Foundation.framework in Frameworks */,
@@ -118,6 +124,15 @@
 				4B8E197115A2F020007F1FC0 /* UIImage-Extensions.m */,
 			);
 			path = "UIImage-Extensions";
+			sourceTree = "<group>";
+		};
+		4B8E197915A3E94E007F1FC0 /* ALAssetsLibrary+CustomPhotoAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				4B8E197A15A3E94E007F1FC0 /* ALAssetsLibrary+CustomPhotoAlbum.h */,
+				4B8E197B15A3E94E007F1FC0 /* ALAssetsLibrary+CustomPhotoAlbum.m */,
+			);
+			path = "ALAssetsLibrary+CustomPhotoAlbum";
 			sourceTree = "<group>";
 		};
 		4BC7B9C5159D501D007CCDD1 /* InfColorPicker */ = {
@@ -157,6 +172,7 @@
 		6B93BE5F13F3374100DFAB23 = {
 			isa = PBXGroup;
 			children = (
+				4B8E197915A3E94E007F1FC0 /* ALAssetsLibrary+CustomPhotoAlbum */,
 				4B8E196E15A2EFF7007F1FC0 /* UIImage-Extensions */,
 				4BC7B9F7159DABDD007CCDD1 /* UIGlossyButton */,
 				4BC7B9C5159D501D007CCDD1 /* InfColorPicker */,
@@ -177,6 +193,7 @@
 		6B93BE6D13F3374200DFAB23 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4B8E197315A3E359007F1FC0 /* AssetsLibrary.framework */,
 				6B250CCF13FA2127002A5D9D /* QuartzCore.framework */,
 				6B93BE9113F337B000DFAB23 /* spline */,
 				6B93BE6E13F3374200DFAB23 /* UIKit.framework */,
@@ -321,6 +338,7 @@
 				4BC7B9FC159DABDE007CCDD1 /* UIGlossyButton.m in Sources */,
 				4BC7B9FD159DABDE007CCDD1 /* UIView+LayerEffects.m in Sources */,
 				4B8E197215A2F020007F1FC0 /* UIImage-Extensions.m in Sources */,
+				4B8E197C15A3E94E007F1FC0 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,7 +392,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -394,7 +412,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -411,6 +429,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Smooth Line View/Smooth Line View-Prefix.pch";
 				INFOPLIST_FILE = "Smooth Line View/Smooth Line View-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -425,6 +444,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Smooth Line View/Smooth Line View-Prefix.pch";
 				INFOPLIST_FILE = "Smooth Line View/Smooth Line View-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
