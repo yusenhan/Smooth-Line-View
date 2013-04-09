@@ -364,7 +364,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     [self setNeedsDisplayInRect:drawBox];
 
     //http://stackoverflow.com/a/4766028/489594
-    [[NSRunLoop currentRunLoop] runMode: NSDefaultRunLoopMode beforeDate: [NSDate date]];
+    [[NSRunLoop currentRunLoop] runMode:NSRunLoopCommonModes beforeDate: [NSDate date]];
     
 }
 
