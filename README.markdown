@@ -2,6 +2,8 @@
 Smooth line UIView
 ====================
 
+LICENSE:BSD-3
+
 based on https://github.com/levinunnink/Smooth-Line-View
 <pre>
 I add new function: 
